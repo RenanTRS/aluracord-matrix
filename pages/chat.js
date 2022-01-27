@@ -9,6 +9,7 @@ import appConfig from '../config.json';
 import {useState} from 'react';
 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMxNDE3NSwiZXhwIjoxOTU4ODkwMTc1fQ.jAv7Va8LUhOYg_t52c2iq6Ls-ms1bt3x9E6TOfFI0fM';
+const SUPABASE_URL = 'https://cevzvjyhhdrhrdkexpwb.supabase.co';
 
 export default function ChatPage() {
     // Sua lógica vai aqui
