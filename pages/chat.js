@@ -4,25 +4,40 @@
     );
 }*/
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import appConfig from '../config.json';
-import {useState} from 'react';
+//import {useState} from 'react';
+import { createClient } from '@supabase/supabase-js'
 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMxNDE3NSwiZXhwIjoxOTU4ODkwMTc1fQ.jAv7Va8LUhOYg_t52c2iq6Ls-ms1bt3x9E6TOfFI0fM';
 const SUPABASE_URL = 'https://cevzvjyhhdrhrdkexpwb.supabase.co';
+
+//Conexão com o supabase
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 export default function ChatPage() {
     // Sua lógica vai aqui
     const [mensagem, setMensagem] = useState('');
     const [listaDeMensagens, setListaDeMensagens] = useState([]);
 
+    useEffect(()=>{
+        //conexão com o supabase (nome da tabela)
+        supabaseClient.from('mensagens')
+        .select('*')
+        .order('id', {ascending: false}) //Coloca em ordem decrescente
+        .then(({data})=>{
+            setListaDeMensagens(data)})
+    },[]);
     function handleNovaMensagem(novaMensagem){
         const message = {
-            id: listaDeMensagens.length + 1,
+            //id: listaDeMensagens.length + 1,
             de: 'renantrs',
             texto: novaMensagem
         }
-        setListaDeMensagens([message, ...listaDeMensagens])
+
+        supabaseClient.from('mensagens').insert([message]).then(({data}) => {
+            setListaDeMensagens([data[0], ...listaDeMensagens])
+        })
         setMensagem('')
     }
 
@@ -174,7 +189,7 @@ function MessageList(props) {
                             display: 'inline-block',
                             marginRight: '8px',
                         }}
-                        src={`https://github.com/vanessametonini.png`}
+                        src={`https://github.com/${mensagem.de}.png`}
                     />
                     <Text tag="strong">
                         {mensagem.de}
