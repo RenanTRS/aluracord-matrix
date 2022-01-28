@@ -4,7 +4,7 @@ import {useState} from 'react';
 import {useRouter} from 'next/router'
 
 function Titulo(props){
-    console.log(props)
+    //console.log(props)
     const Tag = props.tag || 'h1';
     return(
         <>
@@ -20,20 +20,10 @@ function Titulo(props){
     );
 }
 
-/*function HomePage() {
-    return (
-        <div>
-            <GlobalStyle />
-            <Title tag="h2">Boas vindas de volta!</Title>
-            <h2>Discord - Alura Matrix</h2>
-        </div>
-    ) 
-}*/
 export default function PaginaInicial() {
     //Roteamento
     const roteamento = useRouter();
-    //const username = 'RenanTRS';
-    const [username, setUsername] = useState('RenanTRS')
+    const [username, setUsername] = useState('')
   
     return (
       <>
@@ -65,8 +55,7 @@ export default function PaginaInicial() {
               as="form"
               onSubmit={(event) => {
                   event.preventDefault();
-                  console.log('enviar')
-                  roteamento.push('/chat');
+                  roteamento.push(`/chat?username=${username}`);
               }}
               styleSheet={{
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -75,7 +64,6 @@ export default function PaginaInicial() {
             >
               <Titulo tag="h2">Boas vindas de volta!</Titulo>
               <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
-                {appConfig.name}
               </Text>
   
               <TextField
